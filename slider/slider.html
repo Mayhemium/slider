@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #window{
+            position: relative;
+            margin:0 auto;
+            height: 500px;
+            width: 960px;
+            overflow: hidden;
+        }
+        #container{
+            position: relative;
+            height: 500px;
+            width: 2880px;
+            display: flex;
+            flex-direction: row;
+            transition: left 1s linear;
+            left: 0;
+        }
+        .slide{
+            height: 500px;
+            width: 960px;
+            overflow: hidden;
+        }
+        .slide>img{
+            height: 500px;
+            width: 960px;
+            transition: all 0.5s ease-in;
+        }
+        .klik img{
+            transform: scale(2);
+        }
+        .btn{
+            position: absolute;
+            top: 50%;
+        }
+        .prev{
+            left: 10px;
+        }
+        .next{
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id='window'>
+        <div id='container'>
+            <div class="slide">
+                <img src="img/autumn-autumn-colors-autumn-leaves-1108701.jpg" alt="">
+            </div>
+            <div class="slide">
+                <img src="img/beach-clouds-daytime-1450092.jpg" alt="">
+            </div>
+            <div class="slide">
+                <img src="img/hobby-leisure-man-67386.jpg" alt="">
+            </div>
+        </div>
+        <button class="btn prev">
+            &lt;
+        </button>
+        <button class="btn next">
+            &gt;
+        </button>
+    </div>
+    <script>
+        let container = document.querySelector("#container");
+        let myWindow = document.querySelector("#window");
+        let slide = document.querySelectorAll(".slide");
+        let prev = document.querySelector(".prev");
+        let next = document.querySelector(".next");
+        let left = 0;
+        let myInterval;
+
+        let interval = function(){
+            if(left > -1920)
+                left -= 960;
+            else
+                left = 0;
+            container.style.left = left+"px";
+        }
+        myInterval = setInterval(interval,2000);
+        
+        myWindow.addEventListener("mouseenter",function(){
+            clearInterval(myInterval);
+            myInterval = undefined;
+        });
+        myWindow.addEventListener("mouseleave",function(){
+            if(myInterval==undefined)
+                myInterval = setInterval(interval,2000);
+        });
+        slide.forEach(element => {
+                element.addEventListener("click",function(){
+                element.classList.toggle("klik");
+            })
+        });
+        prev.addEventListener("click",function(){
+            if(left < 0)
+                left += 960;
+            else
+                left = -1920;
+            container.style.left = left+"px";
+        });
+        next.addEventListener("click",function(){
+            if(left > -1920)
+                left -= 960;
+            else
+                left = 0;
+            container.style.left = left+"px";
+        });
+    </script>
+</body>
+</html>
